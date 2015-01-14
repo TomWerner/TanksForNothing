@@ -27,6 +27,7 @@ public class AssetLoader
     public static HashMap<String, Animation>     animationAtlas;
     public static BitmapFont                     fontBig;
     public static BitmapFont                     fontMedium;
+    public static BitmapFont                     fontSmall;
 
     @SuppressWarnings("deprecation")
     public static void load()
@@ -65,6 +66,7 @@ public class AssetLoader
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/carbon.ttf"));
         fontBig = generator.generateFont(50);
         fontMedium = generator.generateFont(35);
+        fontSmall = generator.generateFont(15);
         generator.dispose();
 
     }

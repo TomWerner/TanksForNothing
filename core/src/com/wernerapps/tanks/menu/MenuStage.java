@@ -19,22 +19,7 @@ public class MenuStage extends Stage
     public MenuStage(TanksGame game)
     {
         this.game = game;
-        String[] lines = { "P v P", "P v CPU", "About" };
-        String title = "Tanks for Nothing";
-        menuUI = new MenuUI(this, lines, title, new MenuHandler()
-        {
-            @Override
-            public void menuItemClicked(TanksGame game, int index)
-            {
-                if (index == 0)
-                    changeToStageChoiceUI();
-                else if (index == 1)
-                    game.setScreen(new GameScreen(game, 1));
-                else if (index == 2)
-                    changeToAboutUI();
-                
-            }
-        });
+        changeToMainUI();
 
         TextureRegion ground = AssetLoader.textureAtlas.get("dirt.png");
         int width = (int) getWidth() / ground.getRegionWidth();
@@ -59,7 +44,7 @@ public class MenuStage extends Stage
         addTank(3, 1, getWidth() - 175, 15, 70, 80);
     }
 
-    protected void changeToStageChoiceUI()
+    protected void changeToMainUI()
     {
         String[] lines = { "P v P", "P v CPU", "About" };
         String title = "Tanks for Nothing";
@@ -74,7 +59,40 @@ public class MenuStage extends Stage
                     game.setScreen(new GameScreen(game, 1));
                 else if (index == 2)
                     changeToAboutUI();
-                
+
+            }
+        });
+    }
+
+    protected void changeToStageChoiceUI()
+    {
+        final String[] lines = { "No Man's Land", "Boxed In", "Dirtbags", "The Maze" };
+        String title = "P v P levels";
+        String footer = "Back";
+        menuUI = new MenuUI(this, lines, title, footer, new MenuHandler()
+        {
+            @Override
+            public void menuItemClicked(TanksGame game, int index)
+            {
+                if (index == lines.length)
+                    changeToMainUI();
+
+            }
+        });
+    }
+
+    protected void changeToAboutUI()
+    {
+        final String[] lines = { "Sound effects from http://www.freesfx.co.uk", "Art assets from http://kenney.nl/", "Programming by Tom Werner" };
+        String title = "About";
+        menuUI = new MenuUI(this, lines, title, "Back", new MenuHandler()
+        {
+            @Override
+            public void menuItemClicked(TanksGame game, int index)
+            {
+                if (index == lines.length)
+                    changeToMainUI();
+
             }
         });
     }
