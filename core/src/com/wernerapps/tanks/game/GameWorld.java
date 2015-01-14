@@ -47,6 +47,7 @@ public class GameWorld extends Stage
     public Image             turnLeft;
     public Image             turnRight;
     public Image             shootPanel;
+    public Image             pauseButton;
     public NextLevelUI       nextLevelUI;
 
     private Rectangle        gameBounds;
@@ -90,6 +91,9 @@ public class GameWorld extends Stage
                 executeLevelDoneTouchDown(screenX, screenY, pointer, button);
             else if (currentController != null)
                 currentController.handleTouchDown(this, screenX, screenY, pointer, button);
+            
+            if (screenX > getWidth() - pauseButton.getWidth() && (getHeight() - screenY) > getHeight() - pauseButton.getHeight())
+                paused = true;
         }
         else
             paused = false;
@@ -350,6 +354,7 @@ public class GameWorld extends Stage
         turnRight.setPosition(pos.x + getWidth() - turnRight.getWidth(), pos.y - getHeight());
 
         shootPanel.setPosition(pos.x + getWidth() / 2 - shootPanel.getWidth() / 2, pos.y - getHeight());
+        pauseButton.setPosition(pos.x + getWidth() - pauseButton.getWidth(), pos.y - pauseButton.getHeight());
     }
 
     private void updateObjects(float delta)

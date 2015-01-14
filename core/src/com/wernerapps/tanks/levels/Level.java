@@ -192,6 +192,9 @@ public abstract class Level
         world.shootPanel = new Image(AssetLoader.textureAtlas.get("shootPanel.png"));
         world.addActor(world.shootPanel);
         world.shootPanel.setVisible(false);
+
+        world.pauseButton = new Image(AssetLoader.textureAtlas.get("pause.png"));
+        world.addActor(world.pauseButton);
     }
 
     public int getStartingTeam()

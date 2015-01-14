@@ -63,6 +63,9 @@ public class AssetLoader
         temp = new Texture(Gdx.files.internal("assortedassets/stop.png"));
         textureAtlas.put("donePanel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
         
+        temp = new Texture(Gdx.files.internal("assortedassets/pause.png"));
+        textureAtlas.put("pause.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
+        
         temp = new Texture(Gdx.files.internal("assortedassets/flag1.png"));
         textureAtlas.put("flag1.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
         temp = new Texture(Gdx.files.internal("assortedassets/flag2.png"));
