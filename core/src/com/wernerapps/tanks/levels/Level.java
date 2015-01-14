@@ -2,7 +2,9 @@ package com.wernerapps.tanks.levels;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.wernerapps.tanks.game.GameWorld;
 import com.wernerapps.tanks.gameobjects.Obstacle;
@@ -27,6 +29,28 @@ public abstract class Level
     protected Portal                    portal;
     protected ArrayList<StateCondition> states      = new ArrayList<StateCondition>();
     protected int                       stateIndex  = 0;
+    private String                      message;
+    private Vector2                     messagePosition;
+    private TextBounds                  messageBounds;
+    private LevelState                  levelState;
+    private long                        timer;
+    private TextBounds                  timerBounds;
+    private Vector2                     timerPosition;
+
+    public enum LevelState {
+        THREE, TWO, ONE, PLAYING
+    }
+
+    public Level(String message)
+    {
+        this.message = message;
+        messageBounds = new TextBounds(AssetLoader.fontBig.getBounds(message));
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
 
     public Rectangle buildLevel(GameWorld world)
     {
@@ -43,6 +67,8 @@ public abstract class Level
         createOther(world, bounds);
 
         createUI(world);
+        levelState = LevelState.THREE;
+        timer = System.currentTimeMillis();
         return bounds;
     }
 
@@ -56,7 +82,36 @@ public abstract class Level
 
     public abstract float getMaxFuelSeconds();
 
-    public abstract void update(GameWorld gameWorld, float delta);
+    protected abstract void updateLevel(GameWorld world, float delta);
+
+    public void update(GameWorld world, float delta)
+    {
+        if (!levelState.equals(LevelState.PLAYING))
+        {
+            world.currentController = null;
+            if (System.currentTimeMillis() - timer > 1000)
+            {
+                advanceLevelState(world);
+                timer = System.currentTimeMillis();
+            }
+        }
+        updateLevel(world, delta);
+    }
+
+    private void advanceLevelState(GameWorld world)
+    {
+        if (levelState.equals(LevelState.THREE))
+            levelState = LevelState.TWO;
+        else if (levelState.equals(LevelState.TWO))
+            levelState = LevelState.ONE;
+        else if (levelState.equals(LevelState.ONE))
+            levelState = LevelState.PLAYING;
+        if (levelState.equals(LevelState.PLAYING))
+        {
+            levelState = LevelState.PLAYING;
+            world.currentController = getTeams().get(world.currentTeam).getController();
+        }
+    }
 
     public void advanceState(GameWorld world)
     {
@@ -130,6 +185,8 @@ public abstract class Level
         world.turnLeft.setVisible(false);
 
         world.turnRight = new Image(AssetLoader.textureAtlas.get("turnPanel.png"));
+        world.turnRight.setOriginX(world.turnRight.getWidth() / 2);
+        world.turnRight.setScaleX(-1);
         world.addActor(world.turnRight);
         world.turnRight.setVisible(false);
 
@@ -148,4 +205,27 @@ public abstract class Level
         return animations;
     }
 
+    public void recalculateMessagePosition(GameWorld world)
+    {
+        messagePosition = world.screenToStageCoordinates(new Vector2(world.getWidth() / 2 - messageBounds.width / 2,
+                world.getHeight() / 2 - messageBounds.height * .5f));
+        timerBounds = new TextBounds(AssetLoader.fontBig.getBounds(levelState.toString()));
+        timerPosition = world.screenToStageCoordinates(new Vector2(world.getWidth() / 2 - timerBounds.width / 2, world
+                .getHeight() / 2 + timerBounds.height * 2.5f));
+    }
+
+    public Vector2 getMessagePosition()
+    {
+        return messagePosition;
+    }
+
+    public Vector2 getTimerPosition()
+    {
+        return timerPosition;
+    }
+
+    public LevelState getLevelState()
+    {
+        return levelState;
+    }
 }

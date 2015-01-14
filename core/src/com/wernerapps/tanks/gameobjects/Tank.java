@@ -166,6 +166,13 @@ public class Tank implements Updateable
             }
         }
 
+        updateImages();
+
+        return false;
+    }
+    
+    public void updateImages()
+    {
         tankBody.setPosition(position.x - tankBody.getWidth() / 2, position.y);
         boundingCircle.setPosition(position.x, position.y + tankBody.getOriginY());
         tankTurret.setPosition(tankBody.getX() + tankBody.getOriginX() - tankTurret.getOriginX(), tankBody.getY()
@@ -175,8 +182,6 @@ public class Tank implements Updateable
                 .setPosition(position.x + healthImage.getHeight() / 2, position.y - healthOutline.getWidth() * 1.25f);
         healthOutline.setPosition(position.x + healthOutline.getHeight() / 2, position.y - healthOutline.getWidth()
                 * 1.25f);
-
-        return false;
     }
 
     public void turnBarrelLeft(boolean turning)

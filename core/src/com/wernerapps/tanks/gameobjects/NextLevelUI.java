@@ -46,7 +46,7 @@ public class NextLevelUI
         Batch batch = world.getBatch();
         batch.begin();
 
-        AssetLoader.fontBig.setColor(1, 1, 1, 1);
+        AssetLoader.fontBig.setColor(0, 0, 0, 1);
 
         AssetLoader.fontBig.draw(world.getBatch(), levelComplete, levelCompletePosition.x, levelCompletePosition.y);
         AssetLoader.fontBig.draw(world.getBatch(), replay, replayPosition.x, replayPosition.y);

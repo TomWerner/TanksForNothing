@@ -2,14 +2,10 @@ package com.wernerapps.tanks.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.wernerapps.tanks.game.TanksGame;
 
@@ -27,9 +23,6 @@ public abstract class AbstractScreen implements Screen
 
     private BitmapFont font;
     private SpriteBatch batch;
-    private Skin skin;
-    private TextureAtlas atlas;
-    private Table table;
 
     public AbstractScreen(TanksGame game, Viewport viewport)
     {
@@ -40,6 +33,11 @@ public abstract class AbstractScreen implements Screen
     protected String getName()
     {
         return getClass().getSimpleName();
+    }
+    
+    protected Stage getStage()
+    {
+        return stage;
     }
 
     protected boolean isGameScreen()
@@ -65,41 +63,6 @@ public abstract class AbstractScreen implements Screen
             batch = new SpriteBatch();
         }
         return batch;
-    }
-
-    // public TextureAtlas getAtlas()
-    // {
-    // if (atlas == null)
-    // {
-    // atlas = new TextureAtlas(
-    // Gdx.files.internal("image-atlases/pages.atlas"));
-    // }
-    // return atlas;
-    // }
-
-    protected Skin getSkin()
-    {
-        if (skin == null)
-        {
-            FileHandle skinFile = Gdx.files.internal("skin/uiskin.json");
-            skin = new Skin(skinFile);
-        }
-        return skin;
-    }
-
-    protected Table getTable()
-    {
-        if (table == null)
-        {
-            table = new Table(getSkin());
-            table.setFillParent(true);
-            if (TanksGame.DEV_MODE)
-            {
-                table.debug();
-            }
-            stage.addActor(table);
-        }
-        return table;
     }
 
     // Screen implementation
@@ -168,9 +131,5 @@ public abstract class AbstractScreen implements Screen
             font.dispose();
         if (batch != null)
             batch.dispose();
-        if (skin != null)
-            skin.dispose();
-        if (atlas != null)
-            atlas.dispose();
     }
 }

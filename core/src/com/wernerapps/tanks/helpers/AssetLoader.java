@@ -26,6 +26,7 @@ public class AssetLoader
     public static HashMap<String, TextureRegion> textureAtlas;
     public static HashMap<String, Animation>     animationAtlas;
     public static BitmapFont                     fontBig;
+    public static BitmapFont                     fontMedium;
 
     @SuppressWarnings("deprecation")
     public static void load()
@@ -42,28 +43,28 @@ public class AssetLoader
                     (int) rect.height);
             textureAtlas.put(name, region);
         }
-        Texture temp = new Texture(Gdx.files.internal("spaceshooter/PNG/Parts/beamLong2.png"));
-        textureAtlas.put("shield1.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
+        Texture temp;
 
-        temp = new Texture(Gdx.files.internal("spaceshooter/PNG/Lasers/laserRed14.png"));
+        temp = new Texture(Gdx.files.internal("assortedassets/laserRed14.png"));
         textureAtlas.put("fuelOutline.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
         textureAtlas.put("healthOutline.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
 
-        temp = new Texture(Gdx.files.internal("spaceshooter/PNG/Lasers/laserRed12.png"));
+        temp = new Texture(Gdx.files.internal("assortedassets/laserRed12.png"));
         textureAtlas.put("fuel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
         textureAtlas.put("health.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
 
-        temp = new Texture(Gdx.files.internal("uipack-space/PNG/metalPanel_red.png"));
+        temp = new Texture(Gdx.files.internal("assortedassets/turnLeft.png"));
         textureAtlas.put("turnPanel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
 
-        temp = new Texture(Gdx.files.internal("uipack-space/PNG/metalPanel_blue.png"));
+        temp = new Texture(Gdx.files.internal("assortedassets/target.png"));
         textureAtlas.put("shootPanel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
 
-        temp = new Texture(Gdx.files.internal("uipack-space/PNG/metalPanel_green.png"));
+        temp = new Texture(Gdx.files.internal("assortedassets/stop.png"));
         textureAtlas.put("donePanel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/carbon.ttf"));
         fontBig = generator.generateFont(50);
+        fontMedium = generator.generateFont(35);
         generator.dispose();
 
     }

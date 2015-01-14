@@ -14,6 +14,16 @@ import com.wernerapps.tanks.players.HumanController;
 
 public class Level3 extends Level2
 {
+    public Level3()
+    {
+        this("Obstacles");
+    }
+    
+    public Level3(String message)
+    {
+        super(message);
+    }
+    
     @Override
     protected void createObstacles(GameWorld world, Rectangle bounds)
     {

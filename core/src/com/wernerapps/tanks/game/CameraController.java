@@ -18,6 +18,8 @@ public class CameraController
 
     public boolean scrollingDone(Camera camera, float delta)
     {
+        if (cameraGoal == null)
+            return false;
         float newLen2 = new Vector2(camera.position.x, camera.position.y).sub(cameraGoal).len();
         boolean gotThere = newLen2 >= oldLen2 + getCameraSpeed() * delta / 2 || newLen2 < getCameraSpeed() * delta / 2;
 //        if (gotThere)
@@ -35,7 +37,7 @@ public class CameraController
 
     public void scrollCamera(Camera camera, float delta)
     {
-        if (!scrollingDone(camera, delta))
+        if (!scrollingDone(camera, delta) && getCameraVelocity() != null)
         {
             Vector2 temp = new Vector2(camera.position.x, camera.position.y);
             temp.x += getCameraVelocity().x * delta;

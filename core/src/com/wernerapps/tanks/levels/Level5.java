@@ -19,6 +19,16 @@ import com.wernerapps.tanks.states.ShootingTurnState;
 
 public class Level5 extends Level4
 {
+    public Level5()
+    {
+        this("Outnumbered");
+    }
+    
+    public Level5(String message)
+    {
+        super(message);
+    }
+    
     @Override
     protected int getWidthFactor()
     {

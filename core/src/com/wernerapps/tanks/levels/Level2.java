@@ -16,6 +16,16 @@ import com.wernerapps.tanks.states.ScrollingState;
 
 public class Level2 extends Level1
 {
+    public Level2()
+    {
+        this("Shooting practice");
+    }
+    
+    public Level2(String message)
+    {
+        super(message);
+    }
+    
     @Override
     protected void createObstacles(GameWorld world, Rectangle bounds)
     {
@@ -39,7 +49,7 @@ public class Level2 extends Level1
     }
 
     @Override
-    public void update(GameWorld world, float delta)
+    protected void updateLevel(GameWorld world, float delta)
     {
         for (TankTeam team : world.getLevel().getTeams())
         {

@@ -19,6 +19,16 @@ import com.wernerapps.tanks.states.LevelDoneState;
 
 public class Level1 extends Level
 {
+    public Level1()
+    {
+        this("Simple Steering");
+    }
+    
+    public Level1(String message)
+    {
+        super(message);
+    }
+    
     @Override
     protected void createOther(GameWorld world, Rectangle bounds)
     {
@@ -89,7 +99,7 @@ public class Level1 extends Level
     }
 
     @Override
-    public void update(GameWorld world, float delta)
+    protected void updateLevel(GameWorld world, float delta)
     {
         portal.update(delta);
 

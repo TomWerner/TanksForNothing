@@ -9,8 +9,7 @@ import com.wernerapps.tanks.helpers.LevelManager;
 import com.wernerapps.tanks.helpers.PreferencesManager;
 import com.wernerapps.tanks.helpers.music.MusicManager;
 import com.wernerapps.tanks.helpers.music.SoundManager;
-import com.wernerapps.tanks.screens.GameScreen;
-import com.wernerapps.tanks.screens.SplashScreen;
+import com.wernerapps.tanks.screens.MenuScreen;
 
 /**
  * The game's main class, called as application events are fired.
@@ -100,13 +99,13 @@ public class TanksGame extends Game
 		// this approach avoids calling the screen's resize method repeatedly
 		if (getScreen() == null)
 		{
-			if (DEV_MODE)
+//			if (DEV_MODE)
+//			{
+//				setScreen(new GameScreen(this, 1));
+//			}
+//			else
 			{
-				setScreen(new GameScreen(this, 1));
-			}
-			else
-			{
-				setScreen(new SplashScreen(this));
+				setScreen(new MenuScreen(this));
 			}
 		}
 	}

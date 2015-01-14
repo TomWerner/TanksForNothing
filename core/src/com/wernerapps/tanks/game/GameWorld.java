@@ -5,19 +5,15 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.wernerapps.tanks.gameobjects.NextLevelUI;
-import com.wernerapps.tanks.gameobjects.Obstacle;
 import com.wernerapps.tanks.gameobjects.OrderFactory;
-import com.wernerapps.tanks.gameobjects.Projectile;
 import com.wernerapps.tanks.gameobjects.Tank;
 import com.wernerapps.tanks.gameobjects.Tank.TankState;
 import com.wernerapps.tanks.gameobjects.TankTeam;
@@ -25,6 +21,7 @@ import com.wernerapps.tanks.gameobjects.Updateable;
 import com.wernerapps.tanks.helpers.AssetLoader;
 import com.wernerapps.tanks.helpers.music.SoundManager.SoundEffect;
 import com.wernerapps.tanks.levels.Level;
+import com.wernerapps.tanks.levels.Level.LevelState;
 import com.wernerapps.tanks.players.TeamController;
 
 public class GameWorld extends Stage
@@ -41,7 +38,7 @@ public class GameWorld extends Stage
     private CameraController cameraController = new CameraController(200);
 
     private Tank             currentTank;
-    private TeamController   currentController;
+    public TeamController    currentController;
 
     // UI stuff
     public Image             fuelOutline;
@@ -65,9 +62,9 @@ public class GameWorld extends Stage
     public GameWorld(TanksGame game, int targetLevelId)
     {
         this.game = game;
-        this.levelNum = 6; // TODO: CHANGE THIS back to targetLevelId
+        this.levelNum = 1; // TODO: CHANGE THIS back to targetLevelId
         this.controller = new WorldController();
-        game.getSoundManager().setVolume(.5f);
+        this.game.getSoundManager().setVolume(.5f);
     }
 
     @Override
@@ -91,7 +88,7 @@ public class GameWorld extends Stage
         {
             if (getLevel().getState().getGameState().equals(GameState.LEVEL_DONE))
                 executeLevelDoneTouchDown(screenX, screenY, pointer, button);
-            else
+            else if (currentController != null)
                 currentController.handleTouchDown(this, screenX, screenY, pointer, button);
         }
         else
@@ -109,7 +106,7 @@ public class GameWorld extends Stage
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
-        if (!paused)
+        if (!paused && currentController != null)
             currentController.handleTouchUp(this, screenX, screenY, pointer, button);
 
         return true;
@@ -138,7 +135,9 @@ public class GameWorld extends Stage
         {
             updateUI();
             updateObjects(delta);
-            currentController.act(this, delta);
+
+            if (currentController != null)
+                currentController.act(this, delta);
 
             switch (level.getState().getGameState())
             {
@@ -196,35 +195,48 @@ public class GameWorld extends Stage
         }
 
         super.draw();
-        ShapeRenderer render = new ShapeRenderer();
-        render.begin(ShapeType.Line);
-        render.setColor(Color.RED);
-        for (Projectile proj : level.getProjectiles())
-        {
-            Circle us = proj.getBounds();
-            Vector2 screen = stageToScreenCoordinates(new Vector2(us.x, us.y));
-            render.circle(screen.x, getHeight() - screen.y, us.radius);
-        }
-        for (TankTeam team : level.getTeams())
-        {
-            for (Tank tank : team.getTanks())
-            {
-                Circle us = tank.getBounds();
-                Vector2 screen = stageToScreenCoordinates(new Vector2(us.x, us.y));
-                render.circle(screen.x, getHeight() - screen.y, us.radius);
-            }
-        }
-        for (Obstacle obstacle : level.getObstacles())
-        {
-            Circle us = obstacle.getBounds();
-            Vector2 screen = stageToScreenCoordinates(new Vector2(us.x, us.y));
-            render.circle(screen.x, getHeight() - screen.y, us.radius);
-        }
-        render.end();
+        // ShapeRenderer render = new ShapeRenderer();
+        // render.begin(ShapeType.Line);
+        // render.setColor(Color.RED);
+        // for (Projectile proj : level.getProjectiles())
+        // {
+        // Circle us = proj.getBounds();
+        // Vector2 screen = stageToScreenCoordinates(new Vector2(us.x, us.y));
+        // render.circle(screen.x, getHeight() - screen.y, us.radius);
+        // }
+        // for (TankTeam team : level.getTeams())
+        // {
+        // for (Tank tank : team.getTanks())
+        // {
+        // Circle us = tank.getBounds();
+        // Vector2 screen = stageToScreenCoordinates(new Vector2(us.x, us.y));
+        // render.circle(screen.x, getHeight() - screen.y, us.radius);
+        // }
+        // }
+        // for (Obstacle obstacle : level.getObstacles())
+        // {
+        // Circle us = obstacle.getBounds();
+        // Vector2 screen = stageToScreenCoordinates(new Vector2(us.x, us.y));
+        // render.circle(screen.x, getHeight() - screen.y, us.radius);
+        // }
+        // render.end();
 
         if (level.getState().getGameState().equals(GameState.LEVEL_DONE) && !paused)
         {
             nextLevelUI.draw(this);
+        }
+        else if (!level.getLevelState().equals(LevelState.PLAYING))
+        {
+            Batch batch = getBatch();
+            batch.begin();
+            AssetLoader.fontBig.setColor(Color.BLACK);
+            level.recalculateMessagePosition(this);
+            AssetLoader.fontBig.draw(getBatch(), level.getMessage(), level.getMessagePosition().x,
+                    level.getMessagePosition().y);
+            AssetLoader.fontBig.draw(getBatch(), level.getLevelState().toString(), level.getTimerPosition().x,
+                    level.getTimerPosition().y);
+
+            batch.end();
         }
 
         if (controller.isKeyDown(Keys.LEFT))
@@ -388,7 +400,7 @@ public class GameWorld extends Stage
         gameStarted = false;
     }
 
-    private void setupLevel(int levelNum)
+    public void setupLevel(int levelNum)
     {
         getActors().clear();
         level = game.getLevelManager().getLevel(levelNum);
@@ -420,5 +432,10 @@ public class GameWorld extends Stage
     {
         super.addActor(actor);
         Arrays.sort(getActors().items, OrderFactory.getComparator());
+    }
+
+    public int getLevelNumber()
+    {
+        return levelNum;
     }
 }
