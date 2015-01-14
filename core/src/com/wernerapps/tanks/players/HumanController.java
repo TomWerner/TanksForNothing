@@ -14,6 +14,8 @@ public class HumanController extends TeamController
     @Override
     public void handleTouchDown(GameWorld world, int screenX, int screenY, int pointer, int button)
     {
+        if (world.paused)
+            return;
         switch (world.getLevel().getState().getGameState())
         {
         case ANIMATIONS:

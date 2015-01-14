@@ -72,4 +72,12 @@ public class Level2 extends Level1
         states.add(new ComputerShootingTurnState());
         states.add(new AnimationState());
     }
+
+    @Override
+    public float getMaxFuelSeconds()
+    {
+        return 3;
+    }
+    
+    
 }

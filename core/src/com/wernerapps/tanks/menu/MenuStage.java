@@ -10,6 +10,7 @@ import com.wernerapps.tanks.gameobjects.Tank;
 import com.wernerapps.tanks.helpers.AssetLoader;
 import com.wernerapps.tanks.menu.MenuUI.MenuHandler;
 import com.wernerapps.tanks.screens.GameScreen;
+import com.wernerapps.tanks.screens.LevelCreatorScreen;
 
 public class MenuStage extends Stage
 {
@@ -46,7 +47,7 @@ public class MenuStage extends Stage
 
     protected void changeToMainUI()
     {
-        String[] lines = { "P v P", "P v CPU", "About" };
+        String[] lines = { "P v P", "P v CPU", "Level Creator", "About" };
         String title = "Tanks for Nothing";
         menuUI = new MenuUI(this, lines, title, new MenuHandler()
         {
@@ -58,6 +59,8 @@ public class MenuStage extends Stage
                 else if (index == 1)
                     game.setScreen(new GameScreen(game, 1));
                 else if (index == 2)
+                    game.setScreen(new LevelCreatorScreen(game));
+                else if (index == 3)
                     changeToAboutUI();
 
             }
@@ -83,7 +86,8 @@ public class MenuStage extends Stage
 
     protected void changeToAboutUI()
     {
-        final String[] lines = { "Sound effects from http://www.freesfx.co.uk", "Art assets from http://kenney.nl/", "Programming by Tom Werner" };
+        final String[] lines = { "Sound effects from http://www.freesfx.co.uk", "Art assets from http://kenney.nl/",
+                "Programming by Tom Werner" };
         String title = "About";
         menuUI = new MenuUI(this, lines, title, "Back", new MenuHandler()
         {

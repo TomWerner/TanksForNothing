@@ -54,7 +54,7 @@ public class GameWorld extends Stage
     private Level            level;
     private int              levelNum;
 
-    private boolean          paused;
+    public boolean           paused;
 
     private TanksGame        game;
     private boolean          gameStarted      = false;
@@ -87,13 +87,13 @@ public class GameWorld extends Stage
     {
         if (!paused)
         {
+            if (screenX > getWidth() - pauseButton.getWidth()
+                    && (getHeight() - screenY) > getHeight() - pauseButton.getHeight())
+                paused = true;
             if (getLevel().getState().getGameState().equals(GameState.LEVEL_DONE))
                 executeLevelDoneTouchDown(screenX, screenY, pointer, button);
             else if (currentController != null)
                 currentController.handleTouchDown(this, screenX, screenY, pointer, button);
-            
-            if (screenX > getWidth() - pauseButton.getWidth() && (getHeight() - screenY) > getHeight() - pauseButton.getHeight())
-                paused = true;
         }
         else
             paused = false;
