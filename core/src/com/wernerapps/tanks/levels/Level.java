@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.wernerapps.tanks.game.GameWorld;
 import com.wernerapps.tanks.gameobjects.Obstacle;
-import com.wernerapps.tanks.gameobjects.Portal;
 import com.wernerapps.tanks.gameobjects.Projectile;
 import com.wernerapps.tanks.gameobjects.TankTeam;
 import com.wernerapps.tanks.helpers.AnimatedActor;
@@ -162,34 +161,34 @@ public abstract class Level
 
     protected void createUI(GameWorld world)
     {
-        world.fuelOutline = new Image(AssetLoader.textureAtlas.get("fuelOutline.png"));
+        world.fuelOutline = new Image(AssetLoader.textureAtlas.get("outsideBar.png"));
         world.fuelOutline.setScale(3);
         world.fuelOutline.rotateBy(90);
         world.fuelOutline.setVisible(false);
         world.addActor(world.fuelOutline);
 
-        world.fuel = new Image(AssetLoader.textureAtlas.get("fuel.png"));
+        world.fuel = new Image(AssetLoader.textureAtlas.get("insideBar.png"));
         world.fuel.setScaleY(2.5f);
         world.fuel.setScaleX(2f);
         world.fuel.rotateBy(90);
         world.fuel.setVisible(false);
         world.addActor(world.fuel);
 
-        world.donePanel = new Image(AssetLoader.textureAtlas.get("donePanel.png"));
+        world.donePanel = new Image(AssetLoader.textureAtlas.get("stop.png"));
         world.addActor(world.donePanel);
         world.donePanel.setVisible(false);
 
-        world.turnLeft = new Image(AssetLoader.textureAtlas.get("turnPanel.png"));
+        world.turnLeft = new Image(AssetLoader.textureAtlas.get("turnLeft.png"));
         world.addActor(world.turnLeft);
         world.turnLeft.setVisible(false);
 
-        world.turnRight = new Image(AssetLoader.textureAtlas.get("turnPanel.png"));
+        world.turnRight = new Image(AssetLoader.textureAtlas.get("turnLeft.png"));
         world.turnRight.setOriginX(world.turnRight.getWidth() / 2);
         world.turnRight.setScaleX(-1);
         world.addActor(world.turnRight);
         world.turnRight.setVisible(false);
 
-        world.shootPanel = new Image(AssetLoader.textureAtlas.get("shootPanel.png"));
+        world.shootPanel = new Image(AssetLoader.textureAtlas.get("target.png"));
         world.addActor(world.shootPanel);
         world.shootPanel.setVisible(false);
 

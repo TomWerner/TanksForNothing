@@ -73,10 +73,10 @@ public class Tank implements Updateable
         shootingAnimation = AssetLoader.getShotAnimation(tankColor);
         shootingAnimation2 = AssetLoader.getShotAnimation(-1);
 
-        healthOutline = new Image(AssetLoader.textureAtlas.get("healthOutline.png"));
+        healthOutline = new Image(AssetLoader.textureAtlas.get("outsideBar.png"));
         healthOutline.rotateBy(90);
 
-        healthImage = new Image(AssetLoader.textureAtlas.get("health.png"));
+        healthImage = new Image(AssetLoader.textureAtlas.get("insideBar.png"));
         healthImage.setScaleY(health / MAX_HEALTH);
         healthImage.rotateBy(90);
     }

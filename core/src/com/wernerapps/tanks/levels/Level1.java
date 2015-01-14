@@ -3,13 +3,13 @@ package com.wernerapps.tanks.levels;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.wernerapps.tanks.game.GameWorld;
 import com.wernerapps.tanks.game.GameWorld.GameState;
 import com.wernerapps.tanks.gameobjects.Background;
-import com.wernerapps.tanks.gameobjects.Portal;
 import com.wernerapps.tanks.gameobjects.Sandbag;
 import com.wernerapps.tanks.gameobjects.Tank;
 import com.wernerapps.tanks.gameobjects.TankTeam;
@@ -22,7 +22,7 @@ import com.wernerapps.tanks.states.LevelDoneState;
 public class Level1 extends Level
 {
     private AnimatedActor finishFlag;
-    private Rectangle finishFlagBounds;
+    private Circle        finishFlagBounds;
 
     public Level1()
     {
@@ -66,10 +66,11 @@ public class Level1 extends Level
 
         finishFlag = getFlagAnimation(0, -200);
         finishFlag.setScale(1.5f);
-        finishFlagBounds = new Rectangle(finishFlag.getX(), finishFlag.getY(), finishFlag.getWidth(), finishFlag.getHeight());
+        finishFlagBounds = new Circle(finishFlag.getX() + finishFlag.getWidth() / 2, finishFlag.getY()
+                + finishFlag.getHeight() / 2, finishFlag.getHeight() / 2);
         world.addActor(finishFlag);
     }
-    
+
     private AnimatedActor getFlagAnimation(float x, float y)
     {
         Vector2 newPos = new Vector2(x, y);

@@ -44,32 +44,15 @@ public class AssetLoader
                     (int) rect.height);
             textureAtlas.put(name, region);
         }
+        
         Texture temp;
-
-        temp = new Texture(Gdx.files.internal("assortedassets/laserRed14.png"));
-        textureAtlas.put("fuelOutline.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-        textureAtlas.put("healthOutline.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-
-        temp = new Texture(Gdx.files.internal("assortedassets/laserRed12.png"));
-        textureAtlas.put("fuel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-        textureAtlas.put("health.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-
-        temp = new Texture(Gdx.files.internal("assortedassets/turnLeft.png"));
-        textureAtlas.put("turnPanel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-
-        temp = new Texture(Gdx.files.internal("assortedassets/target.png"));
-        textureAtlas.put("shootPanel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-
-        temp = new Texture(Gdx.files.internal("assortedassets/stop.png"));
-        textureAtlas.put("donePanel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-        
-        temp = new Texture(Gdx.files.internal("assortedassets/pause.png"));
-        textureAtlas.put("pause.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-        
-        temp = new Texture(Gdx.files.internal("assortedassets/flag1.png"));
-        textureAtlas.put("flag1.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
-        temp = new Texture(Gdx.files.internal("assortedassets/flag2.png"));
-        textureAtlas.put("flag2.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
+        String[] assets = { "down.png", "flag1.png", "flag2.png", "gear.png", "insideBar.png", "outsideBar.png",
+                "pause.png", "stop.png", "target.png", "turnLeft.png", "up.png" };
+        for (String filename : assets)
+        {
+            temp = new Texture(Gdx.files.internal("assortedassets/" + filename));
+            textureAtlas.put(filename, new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
+        }
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/carbon.ttf"));
         fontBig = generator.generateFont(50);
@@ -227,7 +210,7 @@ public class AssetLoader
         result.setPlayMode(Animation.PlayMode.NORMAL);
         return result;
     }
-    
+
     public static Animation getFlagAnimation()
     {
         TextureRegion[] frames = new TextureRegion[2];
