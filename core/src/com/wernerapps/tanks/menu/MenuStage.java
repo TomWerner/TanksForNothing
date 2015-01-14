@@ -66,7 +66,7 @@ public class MenuStage extends Stage
 
     protected void changeToStageChoiceUI()
     {
-        final String[] lines = { "No Man's Land", "Boxed In", "Dirtbags", "The Maze" };
+        final String[] lines = { "No Man's Land", "Boxed In", "Dirtbags", "The Maze", "Another", "Custom 3" };
         String title = "P v P levels";
         String footer = "Back";
         menuUI = new MenuUI(this, lines, title, footer, new MenuHandler()
@@ -74,7 +74,7 @@ public class MenuStage extends Stage
             @Override
             public void menuItemClicked(TanksGame game, int index)
             {
-                if (index == lines.length)
+                if (index == Integer.MAX_VALUE)
                     changeToMainUI();
 
             }
@@ -90,7 +90,7 @@ public class MenuStage extends Stage
             @Override
             public void menuItemClicked(TanksGame game, int index)
             {
-                if (index == lines.length)
+                if (index == Integer.MAX_VALUE)
                     changeToMainUI();
 
             }
