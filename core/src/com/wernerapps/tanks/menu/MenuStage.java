@@ -118,7 +118,7 @@ public class MenuStage extends Stage
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-        menuUI.checkForButtonClicked(game, screenX, screenY);
+        menuUI.checkForButtonClicked(game, this, screenX, screenY);
 
         return false;
     }
