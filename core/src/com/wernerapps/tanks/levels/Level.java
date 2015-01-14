@@ -26,7 +26,6 @@ public abstract class Level
     protected ArrayList<TankTeam>       teams       = new ArrayList<TankTeam>();
     protected ArrayList<Obstacle>       obstacles   = new ArrayList<Obstacle>();
     protected ArrayList<AnimatedActor>  animations  = new ArrayList<AnimatedActor>();
-    protected Portal                    portal;
     protected ArrayList<StateCondition> states      = new ArrayList<StateCondition>();
     protected int                       stateIndex  = 0;
     private String                      message;

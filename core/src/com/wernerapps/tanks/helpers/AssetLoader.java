@@ -62,6 +62,11 @@ public class AssetLoader
 
         temp = new Texture(Gdx.files.internal("assortedassets/stop.png"));
         textureAtlas.put("donePanel.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
+        
+        temp = new Texture(Gdx.files.internal("assortedassets/flag1.png"));
+        textureAtlas.put("flag1.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
+        temp = new Texture(Gdx.files.internal("assortedassets/flag2.png"));
+        textureAtlas.put("flag2.png", new TextureRegion(temp, 0, 0, temp.getWidth(), temp.getHeight()));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/carbon.ttf"));
         fontBig = generator.generateFont(50);
@@ -217,6 +222,17 @@ public class AssetLoader
 
         Animation result = new Animation(0.10f, frames);
         result.setPlayMode(Animation.PlayMode.NORMAL);
+        return result;
+    }
+    
+    public static Animation getFlagAnimation()
+    {
+        TextureRegion[] frames = new TextureRegion[2];
+        frames[1] = AssetLoader.textureAtlas.get("flag1.png");
+        frames[0] = AssetLoader.textureAtlas.get("flag2.png");
+
+        Animation result = new Animation(.4f, frames);
+        result.setPlayMode(Animation.PlayMode.LOOP);
         return result;
     }
 

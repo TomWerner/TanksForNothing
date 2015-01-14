@@ -13,22 +13,27 @@ import com.wernerapps.tanks.gameobjects.Portal;
 import com.wernerapps.tanks.gameobjects.Sandbag;
 import com.wernerapps.tanks.gameobjects.Tank;
 import com.wernerapps.tanks.gameobjects.TankTeam;
+import com.wernerapps.tanks.helpers.AnimatedActor;
+import com.wernerapps.tanks.helpers.AnimationDrawable;
 import com.wernerapps.tanks.helpers.AssetLoader;
 import com.wernerapps.tanks.players.HumanController;
 import com.wernerapps.tanks.states.LevelDoneState;
 
 public class Level1 extends Level
 {
+    private AnimatedActor finishFlag;
+    private Rectangle finishFlagBounds;
+
     public Level1()
     {
         this("Simple Steering");
     }
-    
+
     public Level1(String message)
     {
         super(message);
     }
-    
+
     @Override
     protected void createOther(GameWorld world, Rectangle bounds)
     {
@@ -59,11 +64,19 @@ public class Level1 extends Level
             world.addActor(bag);
         }
 
-        TextureRegion portalTexture = AssetLoader.textureAtlas.get("treeSmall.png");
-        portal = new Portal(portalTexture, new Vector2(-portalTexture.getRegionWidth() / 2, -125
-                - portalTexture.getRegionHeight()));
-        obstacles.add(portal);
-        world.addActor(portal);
+        finishFlag = getFlagAnimation(0, -200);
+        finishFlag.setScale(1.5f);
+        finishFlagBounds = new Rectangle(finishFlag.getX(), finishFlag.getY(), finishFlag.getWidth(), finishFlag.getHeight());
+        world.addActor(finishFlag);
+    }
+    
+    private AnimatedActor getFlagAnimation(float x, float y)
+    {
+        Vector2 newPos = new Vector2(x, y);
+
+        AnimatedActor actor = new AnimatedActor(new AnimationDrawable(AssetLoader.getFlagAnimation()));
+        actor.setPosition(newPos.x, newPos.y);
+        return actor;
     }
 
     @Override
@@ -101,11 +114,11 @@ public class Level1 extends Level
     @Override
     protected void updateLevel(GameWorld world, float delta)
     {
-        portal.update(delta);
+        finishFlag.act(delta);
 
         for (Tank tank : teams.get(0).getTanks())
         {
-            if (Intersector.overlaps(portal.getDoneBounds(), tank.getBounds())
+            if (Intersector.overlaps(tank.getBounds(), finishFlagBounds)
                     && !getState().getGameState().equals(GameState.LEVEL_DONE))
             {
                 states.add(new LevelDoneState(teams.get(0).getDefeatMessage()));
