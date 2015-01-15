@@ -44,10 +44,11 @@ public class AssetLoader
                     (int) rect.height);
             textureAtlas.put(name, region);
         }
-        
+
         Texture temp;
         String[] assets = { "down.png", "flag1.png", "flag2.png", "gear.png", "insideBar.png", "outsideBar.png",
-                "pause.png", "stop.png", "target.png", "turnLeft.png", "up.png" };
+                "pause.png", "stop.png", "target.png", "turnLeft.png", "up.png", "arrow.png", "glassPanel_corners.png",
+                "metalPanel.png", "checkmark.png", "cross.png", "return.png", "save.png" };
         for (String filename : assets)
         {
             temp = new Texture(Gdx.files.internal("assortedassets/" + filename));

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.wernerapps.tanks.helpers.AssetLoader;
 
-public class StartUI
+public class StartUI implements GameUI
 {
     private Image[][] backgrounds;
     private int       xTiles;
@@ -199,6 +199,13 @@ public class StartUI
         for (int i = 0; i < backgrounds.length; i++)
             for (int k = 0; k < backgrounds[i].length; k++)
                 backgrounds[i][k].setX(i * 128 - backgroundIndex * xTiles * 128);
+    }
+
+    @Override
+    public void handleTouchUp(LevelCreatorStage stage, int screenX, int screenY)
+    {
+        // TODO Auto-generated method stub
+        
     }
 
 }

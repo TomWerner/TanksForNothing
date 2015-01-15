@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.wernerapps.tanks.game.GameWorld;
 import com.wernerapps.tanks.helpers.AnimatedActor;
@@ -11,7 +12,7 @@ import com.wernerapps.tanks.helpers.AnimationDrawable;
 import com.wernerapps.tanks.helpers.AssetLoader;
 import com.wernerapps.tanks.helpers.music.SoundManager.SoundEffect;
 
-public class Tank implements Updateable
+public class Tank implements Updateable, Placeable
 {
     public static final int TANK_GREY   = 0;
     public static final int TANK_GREEN  = 1;
@@ -79,6 +80,8 @@ public class Tank implements Updateable
         healthImage = new Image(AssetLoader.textureAtlas.get("insideBar.png"));
         healthImage.setScaleY(health / MAX_HEALTH);
         healthImage.rotateBy(90);
+
+        updateImages();
     }
 
     @Override
@@ -170,7 +173,7 @@ public class Tank implements Updateable
 
         return false;
     }
-    
+
     public void updateImages()
     {
         tankBody.setPosition(position.x - tankBody.getWidth() / 2, position.y);
@@ -311,10 +314,16 @@ public class Tank implements Updateable
         return position;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.wernerapps.tanks.gameobjects.Placeable#setPosition(com.badlogic.gdx.math.Vector2)
+     */
+    @Override
     public void setPosition(Vector2 newPosition)
     {
         position = newPosition;
-        position.y -= tankBody.getWidth() / 2;
+        updateImages();
     }
 
     public AnimatedActor getShootingAnimation()
@@ -371,4 +380,36 @@ public class Tank implements Updateable
     {
         return health;
     }
+
+    @Override
+    public void rotateBy(float amount)
+    {
+        tankBody.rotateBy(amount);
+        tankTurret.rotateBy(amount);
+    }
+
+    @Override
+    public void placeObject(Stage stage, int startOfNonBackground)
+    {
+        for (int i = 0; i < getImages().length; i++)
+        {
+            stage.addActor(getImages()[i]);
+            stage.getActors().insert(startOfNonBackground, stage.getActors().removeIndex(stage.getActors().size - 1));
+            startOfNonBackground++;
+        }
+    }
+
+    @Override
+    public void removeObject()
+    {
+        for (Image image : getImages())
+            image.remove();
+    }
+
+    @Override
+    public float getRotation()
+    {
+        return tankBody.getRotation();
+    }
+
 }
