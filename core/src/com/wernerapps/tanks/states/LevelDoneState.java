@@ -36,7 +36,10 @@ public class LevelDoneState extends StateCondition
                     if (!tank.equals(world.getCurrentTank()))
                         for (Image image : tank.getImages())
                             image.addAction(Actions.sequence(Actions.fadeOut(fadeDelay), Actions.removeActor()));
-        world.showLevelOverUI(new NextLevelUI(world, message));
+        if (world.getLevelNumber() == world.getGame().getLevelManager().getLevels().size())
+            world.showLevelOverUI(new NextLevelUI(world, message, true));
+        else
+            world.showLevelOverUI(new NextLevelUI(world, message, false));
         world.stopAllTanks();
     }
 

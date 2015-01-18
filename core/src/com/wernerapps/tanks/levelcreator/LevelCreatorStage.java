@@ -151,4 +151,9 @@ public class LevelCreatorStage extends Stage
         this.controller = controller;
     }
 
+    public TanksGame getGame()
+    {
+        return game;
+    }
+
 }

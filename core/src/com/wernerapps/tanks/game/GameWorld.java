@@ -20,6 +20,7 @@ import com.wernerapps.tanks.gameobjects.TankTeam;
 import com.wernerapps.tanks.gameobjects.Updateable;
 import com.wernerapps.tanks.helpers.AssetLoader;
 import com.wernerapps.tanks.helpers.music.SoundManager.SoundEffect;
+import com.wernerapps.tanks.levels.FileLevel;
 import com.wernerapps.tanks.levels.Level;
 import com.wernerapps.tanks.levels.Level.LevelState;
 import com.wernerapps.tanks.players.TeamController;
@@ -63,7 +64,7 @@ public class GameWorld extends Stage
     public GameWorld(TanksGame game, int targetLevelId)
     {
         this.game = game;
-        this.levelNum = 1; // TODO: CHANGE THIS back to targetLevelId
+        this.levelNum = targetLevelId; // TODO: CHANGE THIS back to targetLevelId
         this.controller = new WorldController();
         this.game.getSoundManager().setVolume(.5f);
     }
@@ -409,6 +410,8 @@ public class GameWorld extends Stage
     {
         getActors().clear();
         level = game.getLevelManager().getLevel(levelNum);
+        if (level instanceof FileLevel)
+            level = new FileLevel(((FileLevel) level).getFilename());
         gameBounds = level.buildLevel(this);
         // Subtract one because we increment to start
         currentTeam = level.getStartingTeam() - 1;

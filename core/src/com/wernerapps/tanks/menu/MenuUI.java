@@ -129,10 +129,10 @@ public class MenuUI
 
     public void checkForButtonClicked(TanksGame game, Stage stage, float screenX, float screenY)
     {
-        for (int i = 0; i < lines.length; i++)
+        for (int i = 0; i < lines.length && i < MAX_ITEMS; i++)
         {
             if (bounds[i].contains(screenX, screenY))
-                menuHandler.menuItemClicked(game, i);
+                menuHandler.menuItemClicked(game, i + itemOffset);
         }
         if (footerBounds.contains(screenX, screenY))
             menuHandler.menuItemClicked(game, Integer.MAX_VALUE);

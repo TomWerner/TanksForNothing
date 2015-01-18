@@ -8,6 +8,8 @@ import com.wernerapps.tanks.game.TanksGame;
 import com.wernerapps.tanks.gameobjects.Background;
 import com.wernerapps.tanks.gameobjects.Tank;
 import com.wernerapps.tanks.helpers.AssetLoader;
+import com.wernerapps.tanks.levels.FileLevel;
+import com.wernerapps.tanks.levels.Level;
 import com.wernerapps.tanks.menu.MenuUI.MenuHandler;
 import com.wernerapps.tanks.screens.GameScreen;
 import com.wernerapps.tanks.screens.LevelCreatorScreen;
@@ -71,7 +73,7 @@ public class MenuStage extends Stage
 
     protected void changeToStageChoiceUI()
     {
-        final String[] lines = { "No Man's Land", "Boxed In", "Dirtbags", "The Maze", "Another", "Custom 3" };
+        final String[] lines = { "No Man's Land", "Boxed In", "Dirtbags", "The Maze", "Scrolling!" };
         String title = "P v P levels";
         String footer = "Back";
         if (menuUI != null)
@@ -83,15 +85,25 @@ public class MenuStage extends Stage
             {
                 if (index == Integer.MAX_VALUE)
                     changeToMainUI();
-
+                else
+                {
+                    launchLevel(lines[index]);
+                }
             }
         });
+    }
+
+    protected void launchLevel(String string)
+    {
+        Level level = new FileLevel(string);
+        game.getLevelManager().getLevels().add(level);
+        game.setScreen(new GameScreen(game, game.getLevelManager().getLevels().size()));
     }
 
     protected void changeToAboutUI()
     {
         final String[] lines = { "Sound effects from http://www.freesfx.co.uk", "Art assets from http://kenney.nl/",
-                "Programming by Tom Werner" };
+                "Music from http://soundimage.org/", "Programming by Tom Werner" };
         String title = "About";
         if (menuUI != null)
             menuUI.endMenu();

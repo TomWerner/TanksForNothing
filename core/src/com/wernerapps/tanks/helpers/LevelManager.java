@@ -1,7 +1,6 @@
 package com.wernerapps.tanks.helpers;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.wernerapps.tanks.levels.Level;
 import com.wernerapps.tanks.levels.Level1;
@@ -34,7 +33,7 @@ public class LevelManager
 	/**
 	 * Retrieve all the available levels.
 	 */
-	public List<Level> getLevels()
+	public ArrayList<Level> getLevels()
 	{
 		return levels;
 	}

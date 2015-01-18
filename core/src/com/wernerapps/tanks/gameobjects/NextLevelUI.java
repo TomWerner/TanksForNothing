@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.wernerapps.tanks.game.GameWorld;
 import com.wernerapps.tanks.helpers.AssetLoader;
+import com.wernerapps.tanks.screens.MenuScreen;
 
 public class NextLevelUI
 {
@@ -19,9 +20,11 @@ public class NextLevelUI
     private Vector2   levelCompletePosition;
     private Vector2   replayPosition;
     private Vector2   nextLevelPosition;
+    private boolean   lastLevel;
 
-    public NextLevelUI(GameWorld world, String message)
+    public NextLevelUI(GameWorld world, String message, boolean lastLevel)
     {
+        this.lastLevel = lastLevel;
         this.levelComplete = message;
         TextBounds bounds1 = AssetLoader.fontBig.getBounds(levelComplete);
         levelCompletePosition = world.screenToStageCoordinates(new Vector2(world.getWidth() / 2 - bounds1.width / 2,
@@ -34,6 +37,8 @@ public class NextLevelUI
         replayPosition = world.screenToStageCoordinates(new Vector2(xOffset, yOffset));
         replayLevelBounds = new Rectangle(xOffset, yOffset, bounds2.width, bounds2.height);
 
+        if (lastLevel)
+            nextLevel = "Main Menu";
         TextBounds bounds3 = AssetLoader.fontBig.getBounds(nextLevel);
         xOffset = world.getWidth() / 2 - bounds3.width / 2;
         yOffset = world.getHeight() / 2 + bounds3.height * .5f;
@@ -61,7 +66,10 @@ public class NextLevelUI
     {
         if (nextLevelBounds.contains(screenX, screenY) && !levelComplete.equals("You lose..."))
         {
-            world.nextLevel();
+            if (lastLevel)
+                world.getGame().setScreen(new MenuScreen(world.getGame()));
+            else
+                world.nextLevel();
         }
         if (replayLevelBounds.contains(screenX, screenY))
         {

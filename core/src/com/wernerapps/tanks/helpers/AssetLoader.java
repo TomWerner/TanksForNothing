@@ -3,6 +3,8 @@ package com.wernerapps.tanks.helpers;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -61,9 +63,48 @@ public class AssetLoader
         fontSmall = generator.generateFont(15);
         generator.dispose();
 
+        createBackgroundMusic();
+    }
+    
+    private static void createBackgroundMusic()
+    {
+        new Thread(new Runnable()
+        {
+            Music    current;
+            String[] songs = { "10-Past-Midnight.mp3", "Delivering-the-Goods.mp3", "Moonlit-Streets.mp3",
+                                   "While-the-City-Sleeps.mp3" };
+
+            @Override
+            public void run()
+            {
+                while (true)
+                {
+                    if (current == null)
+                    {
+                        String song = songs[(int) (Math.random() * songs.length)];
+                        current = Gdx.audio.newMusic(Gdx.files.internal("music/" + song));
+                        current.play();
+                        current.setOnCompletionListener(new OnCompletionListener()
+                        {
+                            
+                            @Override
+                            public void onCompletion(Music music)
+                            {
+                                music.dispose();
+                                String song = songs[(int) (Math.random() * songs.length)];
+                                current = Gdx.audio.newMusic(Gdx.files.internal("music/" + song));
+                                current.play();
+                                System.out.println("Playing " + song);
+                            }
+                        });
+                        System.out.println("Playing " + song);
+                    }
+                }
+            }
+        }).start();
     }
 
-    public static HashMap<String, Rectangle> getTextureAtlasBounds()
+    private static HashMap<String, Rectangle> getTextureAtlasBounds()
     {
         HashMap<String, Rectangle> result = new HashMap<String, Rectangle>();
         FileHandle file = Gdx.files.internal("topdowntanks/Spritesheet/sheet_tanks.xml");

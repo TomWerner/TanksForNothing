@@ -11,6 +11,7 @@ import com.wernerapps.tanks.gameobjects.Placeable;
 import com.wernerapps.tanks.gameobjects.Sandbag;
 import com.wernerapps.tanks.gameobjects.Tank;
 import com.wernerapps.tanks.helpers.AssetLoader;
+import com.wernerapps.tanks.screens.MenuScreen;
 
 public class CreateUI implements GameUI
 {
@@ -115,7 +116,7 @@ public class CreateUI implements GameUI
         float height = stage.getHeight();
 
         if (between(width - saveButton.getWidth(), width, temp.x) && between(0, saveButton.getWidth(), temp.y))
-            saveLevel();
+            saveLevel(stage);
 
         if (between(width - unit * 2, width - unit, temp.x) && between(height - unit * 2, height - unit, temp.y))
             stage.getController().setKeyDown(Keys.UP);
@@ -195,7 +196,7 @@ public class CreateUI implements GameUI
         }
     }
 
-    private void saveLevel()
+    private void saveLevel(LevelCreatorStage stage)
     {
         System.out.println("background:" + backgroundName);
         System.out.println("sandbag:" + sandbagName);
@@ -212,21 +213,24 @@ public class CreateUI implements GameUI
         {
             System.out.println("team2:" + tank.getPosition().x + "," + tank.getPosition().y + "," + tank.getRotation());
         }
+
+        if (stage != null)
+            stage.getGame().setScreen(new MenuScreen(stage.getGame()));
     }
 
     private void confirmCurrentPlaceable()
     {
         try
         {
-        saveLevel();
-        if (-selectedIndex == 0)
-            team1Tanks.add((Tank) currentItem);
-        else if (selectedIndex == 1)
-            team2Tanks.add((Tank) currentItem);
-        else if (selectedIndex == 2)
-            obstacles.add((Obstacle) currentItem);
-        lastRotation = currentItem.getRotation();
-        currentItem = null;
+            saveLevel(null);
+            if (-selectedIndex == 0)
+                team1Tanks.add((Tank) currentItem);
+            else if (selectedIndex == 1)
+                team2Tanks.add((Tank) currentItem);
+            else if (selectedIndex == 2)
+                obstacles.add((Obstacle) currentItem);
+            lastRotation = currentItem.getRotation();
+            currentItem = null;
         }
         catch (Exception e)
         {
