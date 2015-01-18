@@ -86,7 +86,7 @@ public class LevelCreatorStage extends Stage
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
         if (currentUI != null)
-            currentUI.handleTouchDown(this, screenX, screenY);
+            currentUI.handleTouchDown(this, screenX, screenY, button);
         return false;
     }
 
@@ -124,7 +124,7 @@ public class LevelCreatorStage extends Stage
         String sandbagType = "sandbagBeige.png";
         if (backgroundType.equals("sand.png"))
             sandbagType = "sandbagBrown.png";
-        currentUI = new CreateUI(this, sandbagType);
+        currentUI = new CreateUI(this,backgroundType, sandbagType);
     }
 
     @Override

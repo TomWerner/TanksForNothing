@@ -49,6 +49,8 @@ public class MenuStage extends Stage
     {
         String[] lines = { "P v P", "P v CPU", "Level Creator", "About" };
         String title = "Tanks for Nothing";
+        if (menuUI != null)
+            menuUI.endMenu();
         menuUI = new MenuUI(this, lines, title, new MenuHandler()
         {
             @Override
@@ -72,6 +74,8 @@ public class MenuStage extends Stage
         final String[] lines = { "No Man's Land", "Boxed In", "Dirtbags", "The Maze", "Another", "Custom 3" };
         String title = "P v P levels";
         String footer = "Back";
+        if (menuUI != null)
+            menuUI.endMenu();
         menuUI = new MenuUI(this, lines, title, footer, new MenuHandler()
         {
             @Override
@@ -89,6 +93,8 @@ public class MenuStage extends Stage
         final String[] lines = { "Sound effects from http://www.freesfx.co.uk", "Art assets from http://kenney.nl/",
                 "Programming by Tom Werner" };
         String title = "About";
+        if (menuUI != null)
+            menuUI.endMenu();
         menuUI = new MenuUI(this, lines, title, "Back", new MenuHandler()
         {
             @Override

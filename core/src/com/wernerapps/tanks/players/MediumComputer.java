@@ -2,8 +2,6 @@ package com.wernerapps.tanks.players;
 
 import java.util.ArrayList;
 
-import javafx.util.Pair;
-
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;

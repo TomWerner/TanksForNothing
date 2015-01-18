@@ -97,6 +97,12 @@ public class MenuUI
         stage.addActor(upButton);
         upButton.setVisible(lines.length > MAX_ITEMS && itemOffset > 0);
     }
+    
+    public void endMenu()
+    {
+        upButton.remove();
+        downButton.remove();
+    }
 
     public void draw(Stage world)
     {

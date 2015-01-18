@@ -40,9 +40,13 @@ public class CreateUI implements GameUI
     private float               lastRotation;
     private int                 startOfNonBackground;
     private Image               saveButton;
+    private String              backgroundName;
+    private String              sandbagName;
 
-    public CreateUI(LevelCreatorStage stage, String sandbagName)
+    public CreateUI(LevelCreatorStage stage, String backgroundName, String sandbagName)
     {
+        this.backgroundName = backgroundName;
+        this.sandbagName = sandbagName;
         startOfNonBackground = stage.getActors().size;
         leftArrow = new Image(AssetLoader.textureAtlas.get("arrow.png"));
         leftArrow.setOrigin(leftArrow.getWidth() / 2, leftArrow.getHeight() / 2);
@@ -103,12 +107,15 @@ public class CreateUI implements GameUI
     }
 
     @Override
-    public void handleTouchDown(LevelCreatorStage stage, int screenX, int screenY)
+    public void handleTouchDown(LevelCreatorStage stage, int screenX, int screenY, int button)
     {
         Vector2 temp = new Vector2(screenX, screenY);
         float unit = upArrow.getWidth();
         float width = stage.getWidth();
         float height = stage.getHeight();
+
+        if (between(width - saveButton.getWidth(), width, temp.x) && between(0, saveButton.getWidth(), temp.y))
+            saveLevel();
 
         if (between(width - unit * 2, width - unit, temp.x) && between(height - unit * 2, height - unit, temp.y))
             stage.getController().setKeyDown(Keys.UP);
@@ -141,8 +148,8 @@ public class CreateUI implements GameUI
         else
             stage.getController().setKeyUp(Keys.PERIOD);
 
-        if (between(width - unit * 4, width - unit * 3, temp.x) && between(height - unit, height, temp.y)
-                && currentItem != null)
+        if ((between(width - unit * 4, width - unit * 3, temp.x) && between(height - unit, height, temp.y) && currentItem != null)
+                || (currentItem != null && button == 1))
             confirmCurrentPlaceable();
         if (between(width - unit * 5, width - unit * 4, temp.x) && between(height - unit, height, temp.y)
                 && currentItem != null)
@@ -162,7 +169,7 @@ public class CreateUI implements GameUI
             if (between(unit * 2, unit * 3, temp.x))
                 select(2);
         }
-        else if (selectedIndex != -1 && getCurrentItem() == null)
+        else if (selectedIndex != -1 && getCurrentItem() == null && !stage.getController().isKeyDown())
         {
             Vector2 pos = stage.screenToStageCoordinates(temp);
             // Clicked on the game
@@ -188,9 +195,31 @@ public class CreateUI implements GameUI
         }
     }
 
+    private void saveLevel()
+    {
+        System.out.println("background:" + backgroundName);
+        System.out.println("sandbag:" + sandbagName);
+        for (Obstacle obstacle : obstacles)
+        {
+            System.out.println("obstacle:" + obstacle.getPosition().x + "," + obstacle.getPosition().y + ","
+                    + obstacle.getRotation());
+        }
+        for (Tank tank : team1Tanks)
+        {
+            System.out.println("team1:" + tank.getPosition().x + "," + tank.getPosition().y + "," + tank.getRotation());
+        }
+        for (Tank tank : team2Tanks)
+        {
+            System.out.println("team2:" + tank.getPosition().x + "," + tank.getPosition().y + "," + tank.getRotation());
+        }
+    }
+
     private void confirmCurrentPlaceable()
     {
-        if (selectedIndex == 0)
+        try
+        {
+        saveLevel();
+        if (-selectedIndex == 0)
             team1Tanks.add((Tank) currentItem);
         else if (selectedIndex == 1)
             team2Tanks.add((Tank) currentItem);
@@ -198,7 +227,11 @@ public class CreateUI implements GameUI
             obstacles.add((Obstacle) currentItem);
         lastRotation = currentItem.getRotation();
         currentItem = null;
-
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 
     private void addPlaceable(LevelCreatorStage stage, Placeable object)

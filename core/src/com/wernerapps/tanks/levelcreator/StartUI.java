@@ -161,7 +161,7 @@ public class StartUI implements GameUI
         batch.end();
     }
 
-    public void handleTouchDown(LevelCreatorStage stage, int screenX, int screenY)
+    public void handleTouchDown(LevelCreatorStage stage, int screenX, int screenY, int button)
     {
         if (backgroundUpBounds.contains(screenX, stage.getHeight() - screenY))
             changeBackgroundPosition(stage, 1);

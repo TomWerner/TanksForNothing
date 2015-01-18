@@ -1,8 +1,7 @@
 package com.wernerapps.tanks.screens;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.wernerapps.tanks.game.GameWorld;
 import com.wernerapps.tanks.game.TanksGame;
 
@@ -11,7 +10,7 @@ public class GameScreen extends AbstractScreen
 
     public GameScreen(TanksGame game, int targetLevelId)
     {
-        super(game, new ScalingViewport(Scaling.none, game.getWidth(), game.getHeight()));
+        super(game, new StretchViewport(game.getWidth(), game.getHeight()));
         stage = new GameWorld(game, targetLevelId);
 
         // play the level music
