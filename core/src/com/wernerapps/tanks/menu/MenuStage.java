@@ -49,7 +49,7 @@ public class MenuStage extends Stage
 
     protected void changeToMainUI()
     {
-        String[] lines = { "P v P", "P v CPU", "Level Creator", "About" };
+        String[] lines = { "P v P", "Campaign", "Level Creator", "About" };
         String title = "Tanks for Nothing";
         if (menuUI != null)
             menuUI.endMenu();
